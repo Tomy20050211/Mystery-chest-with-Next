@@ -1,19 +1,8 @@
-import Image from "next/image";
-import { arrayCards } from "../data/cards";
-import { Card } from "../components/card";
+import { getCards, getDropRates } from "../actions/cardsActions";
+import { MysteryChestClient } from "../components/MysteryChestClient";
 
-export default function Home() {
-  return (
-    <div>
-      {arrayCards.map((card) => (
-        <Card
-          key={card.id}
-          id={card.id}
-          name={card.name}
-          rarity={card.rarity}
-          urlImage={card.urlImage}
-        />
-      ))}
-    </div>
-  );
+export default async function Home() {
+  const [cards, dropRates] = await Promise.all([getCards(), getDropRates()]);
+
+  return <MysteryChestClient cards={cards} dropRates={dropRates} />;
 }
